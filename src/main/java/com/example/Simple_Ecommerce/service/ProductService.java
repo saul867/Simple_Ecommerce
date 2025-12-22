@@ -1,5 +1,6 @@
 package com.example.Simple_Ecommerce.service;
 
+import com.example.Simple_Ecommerce.exception.ResourceNotFoundException;
 import com.example.Simple_Ecommerce.model.Product;
 import com.example.Simple_Ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class ProductService {
 
     public Product updateProduct(Long id, Product productDetails) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product", id));
 
         product.setName(productDetails.getName());
         product.setDescription(productDetails.getDescription());
@@ -44,7 +45,7 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product", id));
         productRepository.delete(product);
     }
 }
